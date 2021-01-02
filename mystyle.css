@@ -1,5 +1,13 @@
 html {
   background: url(images/back.jpg) #000;
+  color: #fff;
+}
+
+#page_head h1 {
+  color: white;
+  text-align: center;
+  font-family: 'Magic School One', sans-serif;
+  margin-top: 0;
 }
 
 .container {
@@ -47,6 +55,7 @@ html {
   align-items: center;
   font-size: 4em;
   font-family: 'Magic School Two', sans-serif;
+  border-radius: 3px;
 }
 
 .result img {
@@ -72,4 +81,50 @@ html {
 #slytherin {
   background-color: #1a472a;
   color: white;
+}
+
+button {
+  background-color: #555555;
+  color: white;
+  padding: 0px 32px;
+  text-align: center;
+  font-size: 2em;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-family: 'Magic School One', sans-serif;
+}
+
+button:focus {
+  border-color: white;
+  background: black;
+}
+
+#footer {
+  font-size: 2em;
+  color: #ddd;   
+  border-top: 2px solid #333;
+  font-family: 'Magic School Two', sans-serif;
+  margin-top: 100px;
+  height: 60px;
+  background: url(/images/magic.jpg);
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-around;
+  text-transform: capitalize;
+}
+
+#footer a {
+  color: #ddd;
+  text-decoration: none;
+}
+
+#footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+#ir  {
+  color: #e73536 !important;
 }
