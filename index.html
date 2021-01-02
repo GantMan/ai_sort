@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="mystyle.css">
+    <link href="http://fonts.cdnfonts.com/css/magic-school-one" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.7.0/dist/tf.min.js"></script>
+    <script>
+      function displayResults(predictions) {
+        // Get Scores
+        const ravenclaw = predictions[0] + predictions[2] + predictions[3]
+        const gryffindor = predictions[1] + predictions[9]
+        const hufflepuff = predictions[4] + predictions[8]
+        const slytherin = predictions[6] + predictions[7]
+        const deatheater = predictions[5]
+
+        document.getElementById("ravenclaw").style.opacity = ravenclaw
+        document.getElementById("gryffindor").style.opacity = gryffindor
+        document.getElementById("hufflepuff").style.opacity = hufflepuff
+        document.getElementById("slytherin").style.opacity = slytherin
+
+        // Cute
+        if (deatheater > (ravenclaw + gryffindor + hufflepuff + slytherin)) {
+          alert('DEATH EATER DETECTED!!!')
+        }
+      }
+
+      async function makePrediction(canvas, model) {
+        const drawTensor = tf.browser.fromPixels(canvas, 1)
+        const resize = tf.image.resizeNearestNeighbor(drawTensor, [28,28], true)
+
+        const batched = resize.expandDims()
+        const results = await model.predict(batched)
+        const predictions = await results.array()
+
+        // Display
+        displayResults(predictions[0])
+        // Cleanup
+        tf.dispose([drawTensor, resize, batched, results])
+      }
+
+      async function loaded() {
+        // load model
+        const model = await tf.loadLayersModel('sorting_hat/model.json')
+        // get the canvas element and its context
+        const canvas = document.getElementById('sketchpad')
+        const context = canvas.getContext('2d')
+        context.lineWidth = 14
+        context.lineCap = 'round'
+        let isIdle = true
+
+        function drawStart(event) {
+          context.beginPath()
+          context.moveTo(
+            event.pageX - canvas.offsetLeft,
+            event.pageY - canvas.offsetTop
+          )
+          isIdle = false
+        }
+        function drawMove(event) {
+          if (isIdle) return
+          context.lineTo(
+            event.pageX - canvas.offsetLeft,
+            event.pageY - canvas.offsetTop
+          )
+          context.stroke()
+        }
+        function drawEnd(event) {
+          isIdle = true
+          makePrediction(canvas, model)
+        }
+        function touchStart(event) {
+          drawStart(event.touches[0])
+        }
+        function touchMove(event) {
+          drawMove(event.touches[0])
+          event.preventDefault()
+        }
+        function touchEnd(event) {
+          drawEnd(event.changedTouches[0])
+        }
+
+        function clean() {
+          context.fillStyle = "#fff";     
+          context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+          displayResults(new Array(10).fill(1))   
+        }
+
+        canvas.addEventListener('touchstart', touchStart, false)
+        canvas.addEventListener('touchmove', touchMove, false)
+        canvas.addEventListener('touchend', touchEnd, false)
+
+        canvas.addEventListener('mousedown', drawStart, false)
+        canvas.addEventListener('mousemove', drawMove, false)
+        canvas.addEventListener('mouseup', drawEnd, false)
+        document.getElementById('clear').onclick = clean
+
+        // Prep canvas 
+        clean()
+      }
+    </script>
+  </head>
+  <body onload="loaded()">
+    <div id="header_container">
+      <img id="header" src="images/hp_top.png"/>
+    </div>
+    <div class="container">
+      <div class="results">
+        <div class="result" id="gryffindor">
+          <img src="images/lion.jpg" />
+          Gryffindor  
+        </div>
+        <div class="result" id="hufflepuff">
+          <img src="images/badger.jpg" />
+          Hufflepuff
+        </div>                     
+      </div>      
+      <div id="drawspace">
+        <h1>Sketch and Sort with AI</h1>
+        <canvas
+          id="sketchpad"
+          onSelectStart="this.style.cursor='crosshair'; return false;"
+          width="500"
+          height="500"
+          style="border: 1px solid #777"
+        >
+        </canvas>
+        <button style="display: flex" id="clear">Clear</button>
+      </div>
+      <div class="results">
+        <div class="result" id="ravenclaw">
+          <img src="images/raven.jpg" />
+          Ravenclaw  
+        </div>
+        <div class="result" id="slytherin">
+          <img src="images/snake.jpg" />
+          Slytherin  
+        </div>                        
+      </div>
+    </div>
+  </body>
+</html>

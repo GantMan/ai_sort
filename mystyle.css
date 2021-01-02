@@ -1,0 +1,75 @@
+html {
+  background: url(images/back.jpg) #000;
+}
+
+.container {
+  display: flex;
+}
+
+#header {
+  width: 300px;
+  margin-top: -20px;
+}
+
+#header_container {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+#drawspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#drawspace h1 {
+  color: white;
+  font-family: 'Magic School One', sans-serif;
+  font-size: 40px;
+  margin: 0;
+}
+
+.results {
+  display: flex;
+  flex: 1;
+  flex-direction: column;  
+}
+
+.result {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: beige;
+  justify-content: center;
+  align-items: center;
+  font-size: 4em;
+  font-family: 'Magic School Two', sans-serif;
+}
+
+.result img {
+  margin-bottom: -20px;
+  width: 150px;
+}
+
+#ravenclaw {
+  background-color: #0e1a40;
+  color: white;
+}
+
+#gryffindor {
+  background-color: #800001;
+  color: white;
+}
+
+#hufflepuff {
+  background-color: #ecb939;
+  color: black;
+}
+
+#slytherin {
+  background-color: #1a472a;
+  color: white;
+}
