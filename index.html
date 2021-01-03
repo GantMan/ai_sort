@@ -8,7 +8,20 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.7.0/dist/tf.min.js"></script>
     <script>
+      // background setup
       const audio = new Audio("media/deatheater.ogg");
+      const magicBack = new Image();
+      let storeIndex = null;
+      magicBack.src = 'media/magic.jpg';
+
+      const CHOICES = [
+        {img: "raven.jpg", house: "Ravenclaw", color: '#0066e2', shadow: '#ccc'},
+        {img: "lion.jpg", house: "Gryffindor", color: '#ae0d0d', shadow: '#ccc'},
+        {img: "badger.jpg", house: "Hufflepuff", color: '#ecb939', shadow: '#333'},
+        {img: "snake.jpg", house: "Slytherin", color: '#2A623D', shadow: '#ccc'},
+        {img: "deatheater.png", house: "Deatheater", color: '#fff', shadow: '#000'}
+      ]
+      
       function displayResults(predictions) {
         // Get Scores
         const ravenclaw = predictions[0] + predictions[2] + predictions[3];
@@ -16,6 +29,9 @@
         const hufflepuff = predictions[4] + predictions[8];
         const slytherin = predictions[6] + predictions[7];
         const deatheater = predictions[5];
+
+        const answers = [ravenclaw, gryffindor, hufflepuff, slytherin, deatheater]
+        storeIndex = answers.indexOf(Math.max(...answers))
 
         document.getElementById("ravenclaw").style.opacity = ravenclaw;
         document.getElementById("gryffindor").style.opacity = gryffindor;
@@ -99,14 +115,70 @@
           context.fillStyle = "#fff";
           context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
           displayResults(new Array(10).fill(1));
+          storeIndex = null;
         }
 
-        function saveDoodle() {
+        function makeImage(url) {
+          return new Promise((res, rej) => {
+            const lilImg = new Image()
+            lilImg.src = url 
+            lilImg.onload = () => res(lilImg)
+            
+          })
+        }
+
+        async function createSharable(ctx, config) {
+          // Pretty background
+          var pattern = ctx.createPattern(magicBack, 'repeat');
+          ctx.fillStyle = pattern;
+          ctx.fillRect(0, 0, 1200, 675);          
+          // Copy over drawing
+          ctx.textAlign = "left";
+          ctx.drawImage(canvas, 50, 70);
+          // Intro Text
+          ctx.font = '48px Magic School One';
+          ctx.fillStyle = '#FFF'
+          ctx.fillText('The AI Sorting Hat Has Chosen', 50, 50);  
+          // Art
+          const art = await makeImage(`media/${config.img}`)
+          const desiredHeight = 500
+          const myWidth = (art.width / art.height) * desiredHeight
+          ctx.drawImage(art, 600, 70, myWidth, desiredHeight)  
+          // Art Text
+          ctx.font = '48px Magic School Two';
+          ctx.fillStyle = config.color;
+          ctx.textAlign = "center";
+          ctx.shadowColor = config.shadow;
+          ctx.shadowOffsetY = 2;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowBlur = 1;
+          ctx.fillText(config.house, 850, 50);    
+          // Footer Brand
+          ctx.font = '24px serif';
+          ctx.textAlign= "left";  
+          ctx.shadowOffsetY = 0;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowBlur = 0;             
+          ctx.fillStyle = '#ddd';  
+          ctx.fillText("Sort your own drawing at AISortingHat.com", 50, 650)
+          ctx.textAlign= "right";   
+          ctx.fillText("This magic is powered by TensorFlow.js", 1150, 650)
+        }
+
+        async function saveDoodle() {
+          console.log(storeIndex)
+          if (storeIndex === null) {
+            alert("You'll need to draw something first!");
+            return;
+          } 
+          const saveCanvas = document.getElementById("saveCanvas");
+          const ctx = saveCanvas.getContext("2d")
+          await createSharable(ctx, CHOICES[storeIndex] )
           const link = document.getElementById("link");
-          link.setAttribute("download", "AI-Sort.png");
+          link.setAttribute("download", "AI-Sort-Share.png");
           link.setAttribute(
             "href",
-            canvas
+            saveCanvas
               .toDataURL("image/png")
               .replace("image/png", "image/octet-stream")
           );
@@ -186,6 +258,6 @@
       </div>
     </div>
     <a id="link"></a>
-    
+    <canvas id="saveCanvas" width="1200" height="675" style="display: none;" ></canvas>
   </body>
 </html>
