@@ -232,6 +232,35 @@
     </script>
   </head>
   <body onload="loaded()">
+    <div id="about" class="modal">
+      <div class="modal__content">
+        <h1>About</h1>
+        <div>
+          <p class="basic_about">
+            This site is powered by a 400 KB AI Model that was trained using TensorFlow.js in Node.
+            All the details of training and and implementing the technology behind this 
+            site can be found in Chapter 10 of Gant's book on TensorFlow.js published with O'Reilly.
+          </p>
+
+          <p id="open_sourced">
+            This page is <a href="https://github.com/GantMan/ai_sort" target="_blank">open source</a>!
+          </p>
+        </div>
+        <br />
+        <div class="modal__footer">
+          Made with ♥️ for educational purposes by 
+          <a
+            href="https://gantlaborde.com"
+            target="_blank"
+          >
+            Gant Laborde
+          </a>
+        </div>
+        <a href="#" class="modal__close">
+          &times;
+        </a>
+      </div>
+    </div>    
     <video autoplay muted loop id="skullVideo">
       <source src="media/deatheater.mp4" type="video/mp4" />
     </video>
@@ -278,7 +307,7 @@
       </div>
     </div>
     <div id="footer">
-      <div>Learn how this was made</div>
+      <div><a href="#about">Learn how this was made</a></div>
       <div>
         By
         <a href="https://twitter.com/GantLaborde" target="_blank"
