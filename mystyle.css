@@ -1,12 +1,12 @@
 html {
-  background: url(images/back.jpg) #000;
+  background: url(media/back.jpg) #000;
   color: #fff;
 }
 
 #page_head h1 {
   color: white;
   text-align: center;
-  font-family: 'Magic School One', sans-serif;
+  font-family: "Magic School One", sans-serif;
   margin-top: 0;
 }
 
@@ -35,7 +35,7 @@ html {
 
 #drawspace h1 {
   color: white;
-  font-family: 'Magic School One', sans-serif;
+  font-family: "Magic School One", sans-serif;
   font-size: 40px;
   margin: 0;
 }
@@ -43,7 +43,7 @@ html {
 .results {
   display: flex;
   flex: 1;
-  flex-direction: column;  
+  flex-direction: column;
 }
 
 .result {
@@ -54,7 +54,7 @@ html {
   justify-content: center;
   align-items: center;
   font-size: 4em;
-  font-family: 'Magic School Two', sans-serif;
+  font-family: "Magic School Two", sans-serif;
   border-radius: 3px;
 }
 
@@ -92,7 +92,7 @@ button {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 3px;
-  font-family: 'Magic School One', sans-serif;
+  font-family: "Magic School One", sans-serif;
 }
 
 button:focus {
@@ -102,12 +102,12 @@ button:focus {
 
 #footer {
   font-size: 2em;
-  color: #ddd;   
+  color: #ddd;
   border-top: 2px solid #333;
-  font-family: 'Magic School Two', sans-serif;
+  font-family: "Magic School Two", sans-serif;
   margin-top: 100px;
   height: 60px;
-  background: url(/images/magic.jpg);
+  background: url(/media/magic.jpg);
   display: flex;
   flex: 1;
   align-items: center;
@@ -125,6 +125,20 @@ button:focus {
   text-decoration: underline;
 }
 
-#ir  {
+#ir {
   color: #e73536 !important;
+}
+
+#skullVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  opacity: 0;
+
+  -webkit-transition: opacity 1.5s ease-in-out;
+  -moz-transition: opacity 1.5s ease-in-out;
+  transition: opacity 1.5s ease-in-out;  
 }

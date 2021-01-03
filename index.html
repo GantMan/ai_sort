@@ -5,6 +5,7 @@
     <link href="http://fonts.cdnfonts.com/css/magic-school-one" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.7.0/dist/tf.min.js"></script>
     <script>
+      const audio = new Audio('media/deatheater.ogg');
       function displayResults(predictions) {
         // Get Scores
         const ravenclaw = predictions[0] + predictions[2] + predictions[3]
@@ -18,10 +19,19 @@
         document.getElementById("hufflepuff").style.opacity = hufflepuff
         document.getElementById("slytherin").style.opacity = slytherin
 
-        // Cute
+        // Cute easter egg
+        const skullVideo = document.getElementById("skullVideo")
+        const sketchPad = document.getElementById("sketchpad")
+
         if (deatheater > (ravenclaw + gryffindor + hufflepuff + slytherin)) {
-          alert('DEATH EATER DETECTED!!!')
+          skullVideo.style.opacity = 1
+          sketchPad.style.opacity = 0.5
+          audio.play();          
+        } else {
+          skullVideo.style.opacity = 0
+          sketchPad.style.opacity = 0.95
         }
+
       }
 
       async function makePrediction(canvas, model) {
@@ -100,20 +110,23 @@
     </script>
   </head>
   <body onload="loaded()">
+    <video autoplay muted loop id="skullVideo">
+      <source src="media/deatheater.mp4" type="video/mp4">
+    </video>
     <div id="page_head">
-      <h1>The AI Sorting Hat</h1>
+      <h1>The <span>AI</span> Sorting Hat</h1>
     </div>
     <div id="header_container">
-      <img id="header" src="images/hp_top.png"/>
+      <img id="header" src="media/hp_top.png"/>
     </div>
     <div class="container">
       <div class="results">
         <div class="result" id="gryffindor">
-          <img src="images/lion.jpg" />
+          <img src="media/lion.jpg" />
           Gryffindor  
         </div>
         <div class="result" id="hufflepuff">
-          <img src="images/badger.jpg" />
+          <img src="media/badger.jpg" />
           Hufflepuff
         </div>                     
       </div>      
@@ -131,11 +144,11 @@
       </div>
       <div class="results">
         <div class="result" id="ravenclaw">
-          <img src="images/raven.jpg" />
+          <img src="media/raven.jpg" />
           Ravenclaw  
         </div>
         <div class="result" id="slytherin">
-          <img src="images/snake.jpg" />
+          <img src="media/snake.jpg" />
           Slytherin  
         </div>                        
       </div>
