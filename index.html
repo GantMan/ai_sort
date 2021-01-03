@@ -1,135 +1,154 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="mystyle.css">
-    <link href="http://fonts.cdnfonts.com/css/magic-school-one" rel="stylesheet">
+    <link rel="stylesheet" href="mystyle.css" />
+    <link
+      href="http://fonts.cdnfonts.com/css/magic-school-one"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.7.0/dist/tf.min.js"></script>
     <script>
-      const audio = new Audio('media/deatheater.ogg');
+      const audio = new Audio("media/deatheater.ogg");
       function displayResults(predictions) {
         // Get Scores
-        const ravenclaw = predictions[0] + predictions[2] + predictions[3]
-        const gryffindor = predictions[1] + predictions[9]
-        const hufflepuff = predictions[4] + predictions[8]
-        const slytherin = predictions[6] + predictions[7]
-        const deatheater = predictions[5]
+        const ravenclaw = predictions[0] + predictions[2] + predictions[3];
+        const gryffindor = predictions[1] + predictions[9];
+        const hufflepuff = predictions[4] + predictions[8];
+        const slytherin = predictions[6] + predictions[7];
+        const deatheater = predictions[5];
 
-        document.getElementById("ravenclaw").style.opacity = ravenclaw
-        document.getElementById("gryffindor").style.opacity = gryffindor
-        document.getElementById("hufflepuff").style.opacity = hufflepuff
-        document.getElementById("slytherin").style.opacity = slytherin
+        document.getElementById("ravenclaw").style.opacity = ravenclaw;
+        document.getElementById("gryffindor").style.opacity = gryffindor;
+        document.getElementById("hufflepuff").style.opacity = hufflepuff;
+        document.getElementById("slytherin").style.opacity = slytherin;
 
         // Cute easter egg
-        const skullVideo = document.getElementById("skullVideo")
-        const sketchPad = document.getElementById("sketchpad")
+        const skullVideo = document.getElementById("skullVideo");
+        const sketchPad = document.getElementById("sketchpad");
 
-        if (deatheater > (ravenclaw + gryffindor + hufflepuff + slytherin)) {
-          skullVideo.style.opacity = 1
-          sketchPad.style.opacity = 0.5
-          audio.play();          
+        if (deatheater > ravenclaw + gryffindor + hufflepuff + slytherin) {
+          skullVideo.style.opacity = 1;
+          sketchPad.style.opacity = 0.5;
+          audio.play();
         } else {
-          skullVideo.style.opacity = 0
-          sketchPad.style.opacity = 0.95
+          skullVideo.style.opacity = 0;
+          sketchPad.style.opacity = 0.95;
         }
-
       }
 
       async function makePrediction(canvas, model) {
-        const drawTensor = tf.browser.fromPixels(canvas, 1)
-        const resize = tf.image.resizeNearestNeighbor(drawTensor, [28,28], true)
+        const drawTensor = tf.browser.fromPixels(canvas, 1);
+        const resize = tf.image.resizeNearestNeighbor(
+          drawTensor,
+          [28, 28],
+          true
+        );
 
-        const batched = resize.expandDims()
-        const results = await model.predict(batched)
-        const predictions = await results.array()
+        const batched = resize.expandDims();
+        const results = await model.predict(batched);
+        const predictions = await results.array();
 
         // Display
-        displayResults(predictions[0])
+        displayResults(predictions[0]);
         // Cleanup
-        tf.dispose([drawTensor, resize, batched, results])
+        tf.dispose([drawTensor, resize, batched, results]);
       }
 
       async function loaded() {
         // load model
-        const model = await tf.loadLayersModel('sorting_hat/model.json')
+        const model = await tf.loadLayersModel("sorting_hat/model.json");
         // get the canvas element and its context
-        const canvas = document.getElementById('sketchpad')
-        const context = canvas.getContext('2d')
-        context.lineWidth = 14
-        context.lineCap = 'round'
-        let isIdle = true
+        const canvas = document.getElementById("sketchpad");
+        const context = canvas.getContext("2d");
+        context.lineWidth = 14;
+        context.lineCap = "round";
+        let isIdle = true;
 
         function drawStart(event) {
-          context.beginPath()
+          context.beginPath();
           context.moveTo(
             event.pageX - canvas.offsetLeft,
             event.pageY - canvas.offsetTop
-          )
-          isIdle = false
+          );
+          isIdle = false;
         }
         function drawMove(event) {
-          if (isIdle) return
+          if (isIdle) return;
           context.lineTo(
             event.pageX - canvas.offsetLeft,
             event.pageY - canvas.offsetTop
-          )
-          context.stroke()
+          );
+          context.stroke();
         }
         function drawEnd(event) {
-          isIdle = true
-          makePrediction(canvas, model)
+          isIdle = true;
+          makePrediction(canvas, model);
         }
         function touchStart(event) {
-          drawStart(event.touches[0])
+          drawStart(event.touches[0]);
         }
         function touchMove(event) {
-          drawMove(event.touches[0])
-          event.preventDefault()
+          drawMove(event.touches[0]);
+          event.preventDefault();
         }
         function touchEnd(event) {
-          drawEnd(event.changedTouches[0])
+          drawEnd(event.changedTouches[0]);
         }
 
         function clean() {
-          context.fillStyle = "#fff";     
+          context.fillStyle = "#fff";
           context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-          displayResults(new Array(10).fill(1))   
+          displayResults(new Array(10).fill(1));
         }
 
-        canvas.addEventListener('touchstart', touchStart, false)
-        canvas.addEventListener('touchmove', touchMove, false)
-        canvas.addEventListener('touchend', touchEnd, false)
+        function saveDoodle() {
+          const link = document.getElementById("link");
+          link.setAttribute("download", "AI-Sort.png");
+          link.setAttribute(
+            "href",
+            canvas
+              .toDataURL("image/png")
+              .replace("image/png", "image/octet-stream")
+          );
+          link.click();
+        }
 
-        canvas.addEventListener('mousedown', drawStart, false)
-        canvas.addEventListener('mousemove', drawMove, false)
-        canvas.addEventListener('mouseup', drawEnd, false)
-        document.getElementById('clear').onclick = clean
+        canvas.addEventListener("touchstart", touchStart, false);
+        canvas.addEventListener("touchmove", touchMove, false);
+        canvas.addEventListener("touchend", touchEnd, false);
 
-        // Prep canvas 
-        clean()
+        canvas.addEventListener("mousedown", drawStart, false);
+        canvas.addEventListener("mousemove", drawMove, false);
+        canvas.addEventListener("mouseup", drawEnd, false);
+        document.getElementById("clear").onclick = clean;
+        document.getElementById("save").onclick = saveDoodle;
+
+        // Prep canvas
+        clean();
       }
     </script>
   </head>
   <body onload="loaded()">
     <video autoplay muted loop id="skullVideo">
-      <source src="media/deatheater.mp4" type="video/mp4">
+      <source src="media/deatheater.mp4" type="video/mp4" />
     </video>
     <div id="page_head">
       <h1>The <span>AI</span> Sorting Hat</h1>
     </div>
     <div id="header_container">
-      <img id="header" src="media/hp_top.png"/>
+      <img id="header" src="media/hp_top.png" />
     </div>
     <div class="container">
       <div class="results">
         <div class="result" id="gryffindor">
           <img src="media/lion.jpg" />
-          Gryffindor  
+          Gryffindor
         </div>
         <div class="result" id="hufflepuff">
           <img src="media/badger.jpg" />
           Hufflepuff
-        </div>                     
-      </div>      
+        </div>
+      </div>
       <div id="drawspace">
         <h1>Sketch and Sort with AI</h1>
         <canvas
@@ -137,25 +156,36 @@
           onSelectStart="this.style.cursor='crosshair'; return false;"
           width="500"
           height="500"
-          style="border: 1px solid #777"
         >
         </canvas>
-        <button style="display: flex" id="clear">🧙‍♀️ Clear Sketch</button>
+        <div id="buttonBlock">
+          <button id="clear">🧙‍♀️ Clear Sketch</button>
+          <button id="save">✨ Download Sketch</button>
+        </div>
       </div>
       <div class="results">
         <div class="result" id="ravenclaw">
           <img src="media/raven.jpg" />
-          Ravenclaw  
+          Ravenclaw
         </div>
         <div class="result" id="slytherin">
           <img src="media/snake.jpg" />
-          Slytherin  
-        </div>                        
+          Slytherin
+        </div>
       </div>
     </div>
     <div id="footer">
       <div>Learn how this was made</div>
-      <div>By <a href="https://twitter.com/GantLaborde" target="_blank">Gant Laborde</a> of <a id="ir" href="https://infinite.red/" target="_blank">Infinite Red</a></div>
+      <div>
+        By
+        <a href="https://twitter.com/GantLaborde" target="_blank"
+          >Gant Laborde</a
+        >
+        of
+        <a id="ir" href="https://infinite.red/" target="_blank">Infinite Red</a>
+      </div>
     </div>
+    <a id="link"></a>
+    
   </body>
 </html>

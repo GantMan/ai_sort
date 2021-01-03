@@ -10,6 +10,10 @@ html {
   margin-top: 0;
 }
 
+#sketchpad {
+  border: 1px solid #777;
+}
+
 .container {
   display: flex;
 }
@@ -141,4 +145,8 @@ button:focus {
   -webkit-transition: opacity 1.5s ease-in-out;
   -moz-transition: opacity 1.5s ease-in-out;
   transition: opacity 1.5s ease-in-out;  
+}
+
+#buttonBlock {
+  display:flex;
 }
