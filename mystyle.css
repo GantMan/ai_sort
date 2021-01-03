@@ -111,7 +111,7 @@ button:focus {
   font-family: "Magic School Two", sans-serif;
   margin-top: 100px;
   height: 60px;
-  background: url(/media/magic.jpg);
+  background: url(media/magic.jpg);
   display: flex;
   flex: 1;
   align-items: center;
