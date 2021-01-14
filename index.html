@@ -2,24 +2,49 @@
 <html lang="en">
   <head>
     <title>AI Sorting Hat .com</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/android-icon-192x192.png"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
     <!--
       Twitter Card Time: https://cards-dev.twitter.com/validator
     -->
@@ -62,7 +87,7 @@
     <meta
       property="og:image:alt"
       content="A desktop iMac with a graphic of the website"
-    />    
+    />
     <link rel="stylesheet" href="mystyle.css" />
     <link
       href="https://fonts.cdnfonts.com/css/magic-school-one"
@@ -71,52 +96,52 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.7.0/dist/tf.min.js"></script>
     <script>
       // background setup
-      const audio = new Audio("media/deatheater.ogg");
-      const magicBack = new Image();
-      magicBack.crossOrigin = "anonymous";
-      let storeIndex = null;
-      magicBack.src = "media/magic.jpg";
+      const audio = new Audio('media/deatheater.ogg')
+      const magicBack = new Image()
+      magicBack.crossOrigin = 'anonymous'
+      let storeIndex = null
+      magicBack.src = 'media/magic.jpg'
 
       const CHOICES = [
         {
-          img: "raven.jpg",
-          house: "Ravenclaw",
-          color: "#0066e2",
-          shadow: "#ccc",
+          img: 'raven.jpg',
+          house: 'Ravenclaw',
+          color: '#0066e2',
+          shadow: '#ccc',
         },
         {
-          img: "lion.jpg",
-          house: "Gryffindor",
-          color: "#ae0d0d",
-          shadow: "#ccc",
+          img: 'lion.jpg',
+          house: 'Gryffindor',
+          color: '#ae0d0d',
+          shadow: '#ccc',
         },
         {
-          img: "badger.jpg",
-          house: "Hufflepuff",
-          color: "#ecb939",
-          shadow: "#333",
+          img: 'badger.jpg',
+          house: 'Hufflepuff',
+          color: '#ecb939',
+          shadow: '#333',
         },
         {
-          img: "snake.jpg",
-          house: "Slytherin",
-          color: "#2A623D",
-          shadow: "#ccc",
+          img: 'snake.jpg',
+          house: 'Slytherin',
+          color: '#2A623D',
+          shadow: '#ccc',
         },
         {
-          img: "deatheater.png",
-          house: "Deatheater",
-          color: "#fff",
-          shadow: "#000",
+          img: 'deatheater.png',
+          house: 'Deatheater',
+          color: '#fff',
+          shadow: '#000',
         },
-      ];
+      ]
 
       function displayResults(predictions) {
         // Get Scores
-        const ravenclaw = predictions[0] + predictions[2] + predictions[3];
-        const gryffindor = predictions[1] + predictions[9];
-        const hufflepuff = predictions[4] + predictions[8];
-        const slytherin = predictions[6] + predictions[7];
-        const deatheater = predictions[5];
+        const ravenclaw = predictions[0] + predictions[2] + predictions[3]
+        const gryffindor = predictions[1] + predictions[9]
+        const hufflepuff = predictions[4] + predictions[8]
+        const slytherin = predictions[6] + predictions[7]
+        const deatheater = predictions[5]
 
         const answers = [
           ravenclaw,
@@ -124,172 +149,172 @@
           hufflepuff,
           slytherin,
           deatheater,
-        ];
-        storeIndex = answers.indexOf(Math.max(...answers));
+        ]
+        storeIndex = answers.indexOf(Math.max(...answers))
 
-        document.getElementById("ravenclaw").style.opacity = ravenclaw;
-        document.getElementById("gryffindor").style.opacity = gryffindor;
-        document.getElementById("hufflepuff").style.opacity = hufflepuff;
-        document.getElementById("slytherin").style.opacity = slytherin;
+        document.getElementById('ravenclaw').style.opacity = ravenclaw
+        document.getElementById('gryffindor').style.opacity = gryffindor
+        document.getElementById('hufflepuff').style.opacity = hufflepuff
+        document.getElementById('slytherin').style.opacity = slytherin
 
         // Cute easter egg
-        const skullVideo = document.getElementById("skullVideo");
-        const sketchPad = document.getElementById("sketchpad");
+        const skullVideo = document.getElementById('skullVideo')
+        const sketchPad = document.getElementById('sketchpad')
 
         if (deatheater > ravenclaw + gryffindor + hufflepuff + slytherin) {
-          skullVideo.style.opacity = 1;
-          sketchPad.style.opacity = 0.5;
-          audio.play();
+          skullVideo.style.opacity = 1
+          sketchPad.style.opacity = 0.5
+          audio.play()
         } else {
-          skullVideo.style.opacity = 0;
-          sketchPad.style.opacity = 0.95;
+          skullVideo.style.opacity = 0
+          sketchPad.style.opacity = 0.95
         }
       }
 
       async function makePrediction(canvas, model) {
-        const drawTensor = tf.browser.fromPixels(canvas, 1);
+        const drawTensor = tf.browser.fromPixels(canvas, 1)
         const resize = tf.image.resizeNearestNeighbor(
           drawTensor,
           [28, 28],
           true
-        );
+        )
 
-        const batched = resize.expandDims();
-        const results = await model.predict(batched);
-        const predictions = await results.array();
+        const batched = resize.expandDims()
+        const results = await model.predict(batched)
+        const predictions = await results.array()
 
         // Display
-        displayResults(predictions[0]);
+        displayResults(predictions[0])
         // Cleanup
-        tf.dispose([drawTensor, resize, batched, results]);
+        tf.dispose([drawTensor, resize, batched, results])
       }
 
       async function loaded() {
         // load model
-        const model = await tf.loadLayersModel("sorting_hat/model.json");
+        const model = await tf.loadLayersModel('sorting_hat/model.json')
         // get the canvas element and its context
-        const canvas = document.getElementById("sketchpad");
-        const context = canvas.getContext("2d");
-        context.lineWidth = 14;
-        context.lineCap = "round";
-        let isIdle = true;
+        const canvas = document.getElementById('sketchpad')
+        const context = canvas.getContext('2d')
+        context.lineWidth = 18
+        context.lineCap = 'round'
+        let isIdle = true
 
         function drawStart(event) {
-          context.beginPath();
+          context.beginPath()
           context.moveTo(
             event.pageX - canvas.offsetLeft,
             event.pageY - canvas.offsetTop
-          );
-          isIdle = false;
+          )
+          isIdle = false
         }
         function drawMove(event) {
-          if (isIdle) return;
+          if (isIdle) return
           context.lineTo(
             event.pageX - canvas.offsetLeft,
             event.pageY - canvas.offsetTop
-          );
-          context.stroke();
+          )
+          context.stroke()
         }
         function drawEnd(event) {
-          isIdle = true;
-          makePrediction(canvas, model);
+          isIdle = true
+          makePrediction(canvas, model)
         }
         function touchStart(event) {
-          drawStart(event.touches[0]);
+          drawStart(event.touches[0])
         }
         function touchMove(event) {
-          drawMove(event.touches[0]);
-          event.preventDefault();
+          drawMove(event.touches[0])
+          event.preventDefault()
         }
         function touchEnd(event) {
-          drawEnd(event.changedTouches[0]);
+          drawEnd(event.changedTouches[0])
         }
 
         function clean() {
-          context.fillStyle = "#fff";
-          context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-          displayResults(new Array(10).fill(1));
-          storeIndex = null;
+          context.fillStyle = '#fff'
+          context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight)
+          displayResults(new Array(10).fill(1))
+          storeIndex = null
         }
 
         function makeImage(url) {
           return new Promise((res, rej) => {
-            const lilImg = new Image();
-            lilImg.src = url;
-            lilImg.onload = () => res(lilImg);
-          });
+            const lilImg = new Image()
+            lilImg.src = url
+            lilImg.onload = () => res(lilImg)
+          })
         }
 
         async function createSharable(ctx, config) {
           // Pretty background
-          var pattern = ctx.createPattern(magicBack, "repeat");
-          ctx.fillStyle = pattern;
-          ctx.fillRect(0, 0, 1200, 675);
+          var pattern = ctx.createPattern(magicBack, 'repeat')
+          ctx.fillStyle = pattern
+          ctx.fillRect(0, 0, 1200, 675)
           // Copy over drawing
-          ctx.textAlign = "left";
-          ctx.drawImage(canvas, 50, 70);
+          ctx.textAlign = 'left'
+          ctx.drawImage(canvas, 50, 70)
           // Intro Text
-          ctx.font = "48px Magic School One";
-          ctx.fillStyle = "#FFF";
-          ctx.fillText("The AI Sorting Hat Has Chosen", 50, 50);
+          ctx.font = '48px Magic School One'
+          ctx.fillStyle = '#FFF'
+          ctx.fillText('The AI Sorting Hat Has Chosen', 50, 50)
           // Art
-          const art = await makeImage(`media/${config.img}`);
-          const desiredHeight = 500;
-          const myWidth = (art.width / art.height) * desiredHeight;
-          ctx.drawImage(art, 600, 70, myWidth, desiredHeight);
+          const art = await makeImage(`media/${config.img}`)
+          const desiredHeight = 500
+          const myWidth = (art.width / art.height) * desiredHeight
+          ctx.drawImage(art, 600, 70, myWidth, desiredHeight)
           // Art Text
-          ctx.font = "48px Magic School Two";
-          ctx.fillStyle = config.color;
-          ctx.textAlign = "center";
-          ctx.shadowColor = config.shadow;
-          ctx.shadowOffsetY = 2;
-          ctx.shadowOffsetX = 2;
-          ctx.shadowBlur = 1;
-          ctx.fillText(config.house, 850, 50);
+          ctx.font = '48px Magic School Two'
+          ctx.fillStyle = config.color
+          ctx.textAlign = 'center'
+          ctx.shadowColor = config.shadow
+          ctx.shadowOffsetY = 2
+          ctx.shadowOffsetX = 2
+          ctx.shadowBlur = 1
+          ctx.fillText(config.house, 850, 50)
           // Footer Brand
-          ctx.font = "24px serif";
-          ctx.textAlign = "left";
-          ctx.shadowOffsetY = 0;
-          ctx.shadowOffsetX = 0;
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = "#ddd";
-          ctx.fillText("Sort your own drawing at AISortingHat.com", 50, 650);
-          ctx.textAlign = "right";
-          ctx.fillText("This magic is powered by TensorFlow.js", 1150, 650);
+          ctx.font = '24px serif'
+          ctx.textAlign = 'left'
+          ctx.shadowOffsetY = 0
+          ctx.shadowOffsetX = 0
+          ctx.shadowBlur = 0
+          ctx.fillStyle = '#ddd'
+          ctx.fillText('Sort your own drawing at AISortingHat.com', 50, 650)
+          ctx.textAlign = 'right'
+          ctx.fillText('This magic is powered by TensorFlow.js', 1150, 650)
         }
 
         async function saveDoodle() {
-          console.log(storeIndex);
+          console.log(storeIndex)
           if (storeIndex === null) {
-            alert("You'll need to draw something first!");
-            return;
+            alert("You'll need to draw something first!")
+            return
           }
-          const saveCanvas = document.getElementById("saveCanvas");
-          const ctx = saveCanvas.getContext("2d");
-          await createSharable(ctx, CHOICES[storeIndex]);
-          const link = document.getElementById("link");
-          link.setAttribute("download", "AI-Sort-Share.png");
+          const saveCanvas = document.getElementById('saveCanvas')
+          const ctx = saveCanvas.getContext('2d')
+          await createSharable(ctx, CHOICES[storeIndex])
+          const link = document.getElementById('link')
+          link.setAttribute('download', 'AI-Sort-Share.png')
           link.setAttribute(
-            "href",
+            'href',
             saveCanvas
-              .toDataURL("image/png")
-              .replace("image/png", "image/octet-stream")
-          );
-          link.click();
+              .toDataURL('image/png')
+              .replace('image/png', 'image/octet-stream')
+          )
+          link.click()
         }
 
-        canvas.addEventListener("touchstart", touchStart, false);
-        canvas.addEventListener("touchmove", touchMove, false);
-        canvas.addEventListener("touchend", touchEnd, false);
+        canvas.addEventListener('touchstart', touchStart, false)
+        canvas.addEventListener('touchmove', touchMove, false)
+        canvas.addEventListener('touchend', touchEnd, false)
 
-        canvas.addEventListener("mousedown", drawStart, false);
-        canvas.addEventListener("mousemove", drawMove, false);
-        canvas.addEventListener("mouseup", drawEnd, false);
-        document.getElementById("clear").onclick = clean;
-        document.getElementById("save").onclick = saveDoodle;
+        canvas.addEventListener('mousedown', drawStart, false)
+        canvas.addEventListener('mousemove', drawMove, false)
+        canvas.addEventListener('mouseup', drawEnd, false)
+        document.getElementById('clear').onclick = clean
+        document.getElementById('save').onclick = saveDoodle
 
         // Prep canvas
-        clean();
+        clean()
       }
     </script>
   </head>
@@ -299,30 +324,34 @@
         <h1>About</h1>
         <div>
           <p class="basic_about">
-            This site is powered by a 400 KB AI Model that was trained using TensorFlow.js in Node.
-            All the details of training and and implementing the technology behind this 
-            site can be found in Chapter 10 of Gant's book on TensorFlow.js published with O'Reilly.
+            This site is powered by a 400 KB AI Model that was trained using
+            TensorFlow.js in Node. All the details of training and and
+            implementing the technology behind this site can be found in Chapter
+            10 of Gant's book on TensorFlow.js published with O'Reilly.
+          </p>
+          <p class="basic_about">
+            This model can be used to train a completely new AI model via
+            transfer learning (as shown in Chapter 11). If you'd like to see how
+            that works then...
+            <a href="transfer/"><em>Boldly Go Here</em></a
+            >.
           </p>
 
           <p id="open_sourced">
-            This page is <a href="https://github.com/GantMan/ai_sort" target="_blank">open source</a>!
+            This page is
+            <a href="https://github.com/GantMan/ai_sort" target="_blank"
+              >open source</a
+            >!
           </p>
         </div>
         <br />
         <div class="modal__footer">
-          Made with ♥️ for educational purposes by 
-          <a
-            href="https://gantlaborde.com"
-            target="_blank"
-          >
-            Gant Laborde
-          </a>
+          Made with ♥️ for educational purposes by
+          <a href="https://gantlaborde.com" target="_blank"> Gant Laborde </a>
         </div>
-        <a href="#" class="modal__close">
-          &times;
-        </a>
+        <a href="#" class="modal__close"> &times; </a>
       </div>
-    </div>    
+    </div>
     <video autoplay muted loop id="skullVideo">
       <source src="media/deatheater.mp4" type="video/mp4" />
     </video>
