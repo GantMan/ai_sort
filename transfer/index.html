@@ -175,10 +175,23 @@
         // Prep canvas
         clean()
       }
+
+      function toggleVideo(e) {
+        const backVid = document.getElementById('backgroundContainer')
+        if (backVid.paused) {
+          backVid.play()
+        } else {
+          backVid.pause()
+        }
+        return false
+      }
     </script>
   </head>
   <body>
-    <div id="backgroundContainer"></div>
+    <video autoplay muted loop id="backgroundContainer">
+      <source src="universe.mp4" type="video/mp4" />
+    </video>
+
     <h1>Transfer Learning - Warp Speed!</h1>
     <h2>Load and Train the AI</h2>
     <button id="load" onclick="loadLabeled()">Load Training Images</button>
@@ -215,6 +228,10 @@
         <img src="images/ferengi.png" class="logo" />
         Ferengi
       </div>
+    </div>
+    <div id="footer">
+      <a href="../">Go Back to AI Sorting Hat</a>
+      <a href="#" onclick="toggleVideo()">Toggle Background Animation</a>
     </div>
   </body>
 </html>

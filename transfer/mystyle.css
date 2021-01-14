@@ -48,11 +48,41 @@ h1 {
 }
 
 #backgroundContainer {
-  background: url(https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2570&q=80);
+  background-color: #000;
   position: fixed;
   right: 0;
   bottom: 0;
   min-width: 100%;
   min-height: 100%;
   z-index: -1;
+}
+
+#footer {
+  font-size: 3em;
+  color: #ddd;
+  border-top: 2px solid #333;
+  font-family: StarTrek, sans-serif;
+  margin-top: 60px;
+  height: 60px;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-around;
+  text-transform: capitalize;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#footer a {
+  color: #ddd;
+  text-decoration: none;
+}
+
+#footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+button {
+  padding: 10px;
+  font-size: 1.2em;
 }
