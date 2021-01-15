@@ -8,3 +8,5 @@ Powered by [TensorFlow.js](https://www.tensorflow.org/js/) this site attempts to
 Your result drawings are downloadable with the prediction.
 
 ![Sharable Graphic Demo](./media/example-sort.png)
+
+If you're interested in checking out Transfer Learning in TFJS, you can check out https://aisortinghat.com/transfer/
