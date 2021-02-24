@@ -13,5 +13,7 @@ Your result drawings are downloadable with the prediction.
 
 ![Sharable Graphic Demo](./media/example-sort.png)
 
+## Transfer Learning Bonus
+
 If you're interested in checking out Transfer Learning in TFJS, you can check out https://aisortinghat.com/transfer/
 [![Screenshot of transfer screen](./media/transfer.JPG)](https://aisortinghat.com/transfer/)
